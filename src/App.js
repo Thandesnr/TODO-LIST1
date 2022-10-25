@@ -8,15 +8,16 @@ function App() {
 
  const LOCAL_STORAGE_KEY = "todoapp"
 
- useEffect(() =>{
-  const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+ const storeTodos = (todos)=>{
+  localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(todos))
+  setTodos(todos)
+ }
+
+ useEffect(() =>{ 
+  const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
   if(storedTodos){
     setTodos(storedTodos)} 
   }, [])
- 
- useEffect(() => {
-  localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(todos))
-  }, [todos])
  
 
 function toggleTodo(id){
@@ -29,10 +30,10 @@ setTodos(newTodos)
  function handleAdd(e) {
  const name = inputRef.current.value;
  if(name === "")return 
- setTodos(prevTodos => {
+ storeTodos((prevTodos) => {
     return [...prevTodos,{id:uuid(),name:name,complete:false}]
  })
-
+ 
  inputRef.current.value = null;
   }
  
